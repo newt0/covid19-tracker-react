@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { MenuItem, FormControl, Select } from "@material-ui/core";
+import InfoBox from "./InfoBox";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -33,19 +34,25 @@ function App() {
   return (
     <div className="app">
       <div className="app__header">
-      <h1>Covid19 tracker</h1>
-      <FormControl className="app__dropdown">
-        <Select variant="outlined" value={country} onChange={onCountryChange}>
-          <MenuItem value="worldwide">worldwide</MenuItem>
-          {countries.map((country) => (
-            <MenuItem value={country.value}>{country.name}</MenuItem>
-          ))}
-          {/* <MenuItem value="worldwide">World Wide</MenuItem>
+        <h1>Covid19 tracker</h1>
+        <FormControl className="app__dropdown">
+          <Select variant="outlined" value={country} onChange={onCountryChange}>
+            <MenuItem value="worldwide">worldwide</MenuItem>
+            {countries.map((country) => (
+              <MenuItem value={country.value}>{country.name}</MenuItem>
+            ))}
+            {/* <MenuItem value="worldwide">World Wide</MenuItem>
           <MenuItem value="worldwide">Option Two</MenuItem>
           <MenuItem value="worldwide">Option Three</MenuItem>
           <MenuItem value="worldwide">Test</MenuItem> */}
-        </Select>
-      </FormControl>
+          </Select>
+        </FormControl>
+      </div>
+
+      <div className="app__stats">
+        <InfoBox title="covid19 cases" cases={200} total={2000} />
+        <InfoBox title="recovered" cases={150} total={1500} />
+        <InfoBox title="covid19 cases" cases={300} total={3000} />
       </div>
     </div>
   );
