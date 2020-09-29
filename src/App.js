@@ -26,12 +26,13 @@ function App() {
   const onCountryChange = async (event) => {
     const countryCode = event.target.value;
     console.log("countryCode is>>>", countryCode);
-    
+
     setCountry(countryCode);
   };
 
   return (
     <div className="app">
+      <div className="app__header">
       <h1>Covid19 tracker</h1>
       <FormControl className="app__dropdown">
         <Select variant="outlined" value={country} onChange={onCountryChange}>
@@ -45,6 +46,7 @@ function App() {
           <MenuItem value="worldwide">Test</MenuItem> */}
         </Select>
       </FormControl>
+      </div>
     </div>
   );
 }
