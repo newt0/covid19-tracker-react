@@ -6,15 +6,18 @@ function InfoBox({ title, cases, total }) {
   return (
     <div>
       <Card className="infoBox">
-        <CardContent>
-          <Typography color="textSecondary"> {title}</Typography>
+      <CardContent>
+        <Typography color="textSecondary" gutterBottom>
+          {title}
+        </Typography>
+        <h2 className={`infoBox__cases`}>
+          {cases}
+        </h2>
 
-          <h2 className="infoBox__cases">{cases}</h2>
-
-          <Typography className="infoBox__total" color="textSecondary"> {title}</Typography>
-          {total}
-        </CardContent>
-
+        <Typography className="infoBox__total" color="textSecondary">
+          {total} Total
+        </Typography>
+      </CardContent>
         <CardActions></CardActions>
       </Card>
     </div>
