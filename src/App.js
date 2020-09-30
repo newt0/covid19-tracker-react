@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { MenuItem, FormControl, Select, Card, CardContent } from "@material-ui/core";
+import {
+  MenuItem,
+  FormControl,
+  Select,
+  Card,
+  CardContent,
+} from "@material-ui/core";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
-  const [countryInfo, setcountryInfo] = useState({});
+  const [countryInfo, setCountryInfo] = useState({});
+
+  useEffect(() => {
+    fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setCountryInfo(data);
+      });
+  }, []);
 
   useEffect(() => {
     const getCountriesData = async () => {
@@ -41,7 +55,7 @@ function App() {
         setCountry(countryCode);
 
         // all of the data from the country response
-        setcountryInfo(data);
+        setCountryInfo(data);
       });
   };
 
@@ -85,7 +99,6 @@ function App() {
         <Map />
       </div>
 
-      
       <Card className="app__right">
         <CardContent>
           <div className="app__information">
