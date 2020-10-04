@@ -47,54 +47,69 @@ const options = {
   },
 };
 
+const buildChartData = (data, casesType) => {
+  let chartData = [];
+  let lastDataPoint;
+  for (let date in data.cases) {
+    if (lastDataPoint) {
+      let newDataPoint = {
+        x: date,
+        y: data[casesType][date] - lastDataPoint,
+      };
+      chartData.push(newDataPoint);
+    }
+    lastDataPoint = data[casesType][date];
+  }
+
+  // data[casesType].forEach((date) => {
+  //   if (lastDataPoint) {
+  //     const newDataPoint = {
+  //       x: date,
+  //       y: data[casesType][date] - lastDataPoint,
+  //     };
+  //     chartData.push(newDataPoint);
+  //   }
+  //   lastDataPoint = data[casesType][date];
+  // });
+
+  return chartData;
+};
+
 function LineGraph({ casesType }) {
   const [data, setData] = useState({});
+
   useEffect(() => {
     const fetchData = async () => {
       fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
-        .then((response) => response.json())
+        .then((response) => {
+          response.json();
+        })
         .then((data) => {
-          console.log(data);
-          let chartData = buildChartData(data, "cases");
+          let chartData = buildChartData(data, casesType);
           setData(chartData);
+          console.log(chartData);
         });
     };
 
-    return fetchData
-  }, []);
-
-  const buildChartData = (data, casesType = "cases") => {
-    const chartData = [];
-    let lastDataPoint;
-
-    data[casesType].forEach((date) => {
-      if (lastDataPoint) {
-        const newDataPoint = {
-          x: date,
-          y: data[casesType][date] - lastDataPoint,
-        };
-        chartData.push(newDataPoint);
-      }
-      lastDataPoint = data[casesType][date];
-    });
-
-    return chartData;
-  };
+    return fetchData;
+  }, [casesType]);
 
   return (
     <div>
-      <Line
-        data={{
-          datasets: [
-            {
-              data: data,
-              backgroundColor: "rgba(204, 16, 52, 0.5)",
-              borderColor: "#CC1034",
-            },
-          ],
-        }}
-        options={options}
-      />
+      {data?.length > 0 && (
+        <Line
+          data={{
+            datasets: [
+              {
+                data: data,
+                backgroundColor: "rgba(204, 16, 52, 0.5)",
+                borderColor: "#CC1034",
+              },
+            ],
+          }}
+          options={options}
+        />
+      )}
     </div>
   );
 }
