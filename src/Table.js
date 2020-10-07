@@ -7,7 +7,7 @@ function Table({ countries }) {
         <tr>
           <td>{country}</td>
           <td>
-      <strong>{cases}</strong>
+            <strong>{cases}</strong>
           </td>
         </tr>
       ))}
