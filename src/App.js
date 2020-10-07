@@ -21,6 +21,8 @@ function App() {
   const [tableData, setTableData] = useState([]);
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([]);
+  const [casesType, setCasesType] = useState("cases");
 
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
@@ -43,6 +45,7 @@ function App() {
           const sortedData = sortData(data);
           setTableData(sortedData);
           setCountries(countries);
+          setMapCountries(data);
         });
     };
 
@@ -66,7 +69,7 @@ function App() {
         // all of the data from the country response
         setCountryInfo(data);
         // setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-        setMapCenter({lat: data.countryInfo.lat, lng: data.countryInfo.long});
+        setMapCenter({ lat: data.countryInfo.lat, lng: data.countryInfo.long });
         setMapZoom(4);
       });
   };
@@ -93,22 +96,30 @@ function App() {
         </div>
         <div className="app__stats">
           <InfoBox
+            onClick={(e) => setCasesType("cases")}
             title="CoronaViruses Cases"
             cases={countryInfo.todayCases}
             total={countryInfo.cases}
           />
           <InfoBox
+            onClick={(e) => setCasesType("recovered")}
             title="Recovered"
             cases={countryInfo.todayRecovered}
             total={countryInfo.recovered}
           />
           <InfoBox
+            onClick={(e) => setCasesType("deaths")}
             title="Deaths"
             cases={countryInfo.todayDeaths}
             total={countryInfo.deaths}
           />
         </div>
-        <Map center={mapCenter} zoom={mapZoom} />
+        <Map
+          center={mapCenter}
+          zoom={mapZoom}
+          countries={mapCountries}
+          casesType={casesType}
+        />
       </div>
 
       <Card className="app__right">
